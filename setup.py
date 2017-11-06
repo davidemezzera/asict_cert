@@ -4,8 +4,8 @@
 from setuptools import setup
 
 setup(
-    name='ascit_cert',
-    version='0.0.2',
+    name='asict_cert',
+    version='0.0.3',
     description='ASICT CERT Integrations ',
     author='METID - Politecnico di Milano',
     url='http://www.metid.polimi.it',
