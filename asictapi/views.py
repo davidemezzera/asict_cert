@@ -24,7 +24,7 @@ def certs_download(request, date_certs):
     
   
     generated_certificates = GeneratedCertificate.eligible_certificates.filter(
-            created_date__gte='2017-09-01T13:16:18Z',
+            created_date__gte='2017-10-29T13:16:18Z',
             status=CertificateStatuses.downloadable
         )
 
