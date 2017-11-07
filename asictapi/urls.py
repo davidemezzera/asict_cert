@@ -9,5 +9,5 @@ from django.conf.urls import patterns, url
 urlpatterns = patterns(
     '',
     url(r'^heartbeat', 'asictapi.views.heartbeat', name = 'asictapi_heartbeat'),
-    url(r'^get_certs/(?P<start_date>+)/(?P<end_date>[^/]+)', 'asictapi.views.certs_download', name = 'asictapi_certs_download'),
+    url(r'^get_certs/(?P<start_date>)/(?P<end_date>)', 'asictapi.views.certs_download', name = 'asictapi_certs_download'),
 )
