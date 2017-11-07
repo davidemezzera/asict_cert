@@ -40,19 +40,4 @@ def certs_download_yesterday(request):
     yesterday = (date.today() - timedelta(1)).strftime("%Y-%m-%d")
     today = date.today().strftime("%Y-%m-%d")
 
-    with connection.cursor() as cursor:
-        cursor.execute(
-            "SELECT SUBSTRING(uid,14) AS CODICE_PERSONA, AP.name AS NAME, course_id, CG.created_date AS DATA_CERTIFICATO \
-            from certificates_generatedcertificate CG \
-            JOIN auth_user A ON A.id = CG.user_id \
-            LEFT JOIN auth_userprofile AP ON A.id = AP.user_id \
-            LEFT JOIN social_auth_usersocialauth SAU ON A.id = SAU.user_id \
-            WHERE CG.status = 'downloadable' AND SUBSTRING(uid,14) IS NOT NULL \
-            AND provider != 'ecoopenid-auth' \
-            AND CONVERT(CG.created_date, datetime) >= CONVERT(%s, datetime) \
-            AND CONVERT(CG.created_date, datetime) <= CONVERT(%s, datetime)", 
-            (yesterday, today))
-
-        result = cursor.fetchall()
-
-    return JsonResponse(result, safe=False)    
+    return certs_download(request, yesterday, today)    
