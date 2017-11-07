@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import json
 from datetime import datetime, timedelta
-from django.http import Http404, JsonResponse, HttpResponse
+from django.http import Http404, JsonResponse
 from django.utils.timezone import UTC
 from certificates.models import *
-from django.core import serializers
+from django.db import connection
 
 
 
@@ -20,19 +20,11 @@ def heartbeat(request):  # pylint: disable=unused-argument
 
 def certs_download(request, date_certs):  
  
-    generated_certificates = GeneratedCertificate.eligible_certificates.filter(
-            created_date__gte = '2017-10-29T13:16:18Z',
-            status = CertificateStatuses.downloadable
-        )
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT SUBSTRING(uid,14) as CODICE_PERSONA, AP.name as NAME, course_id,CG.created_date as DATA_CERTIFICATO from certificates_generatedcertificate CG JOIN auth_user A on A.id=CG.user_id LEFT JOIN auth_userprofile AP on A.id=AP.user_id LEFT JOIN social_auth_usersocialauth SAU on A.id=SAU.user_id where CG.status = 'downloadable' and SUBSTRING(uid,14) IS NOT NULL and provider != 'ecoopenid-auth' AND CONVERT(CG.created_date, datetime) = CONVERT('%s', datetime)", 
+            [date_certs])
+        result = cursor.fetchall()
 
-    #risultato=[]
-    #for cert in generated_certificates:
-    #    risultato.append([cert.name, cert.created_date])
-
- 
-
-    #return JsonResponse(risultato, safe=False)
-    data = serializers.serialize('json', generated_certificates)
-    return HttpResponse(data, content_type = "application/json")
-
+    return JsonResponse(result, safe=False)
 
