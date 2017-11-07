@@ -15,6 +15,7 @@ def heartbeat(request):  # pylint: disable=unused-argument
     return JsonResponse(risposta)
 
 
+
 def certs_download(request, start_date, end_date):  
  
     with connection.cursor() as cursor:
@@ -33,6 +34,7 @@ def certs_download(request, start_date, end_date):
         result = cursor.fetchall()
 
     return JsonResponse(result, safe=False)
+
 
 
 def certs_download_yesterday(request):  
