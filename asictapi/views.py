@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from django.http import JsonResponse
 from django.db import connection
 
