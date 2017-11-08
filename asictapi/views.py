@@ -19,7 +19,8 @@ def heartbeat(request):  # pylint: disable=unused-argument
 
 
 def certs_download(request, start_date, end_date):  
- 
+    
+
     if !(request.user.is_superuser)
         raise PermissionDenied() 
 
@@ -46,6 +47,7 @@ def certs_download_yesterday(request):
 
     yesterday = (date.today() - timedelta(1)).strftime("%Y-%m-%d")
     today = date.today().strftime("%Y-%m-%d")
-    logging.warning(request.user.get_username())   
-    
+    logging.warning(request.user.get_username()) 
+    logging.warning(request.user.is_superuser)   
+
     return certs_download(request, yesterday, today)    
