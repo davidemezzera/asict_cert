@@ -8,6 +8,16 @@ from rest_framework import generics
 from rest_framework import serializers
 
 
+class Pino(serializers.Serializer):
+    id =serializers.IntegerField()
+
+    def create(self):
+        return
+
+    def update(self):
+        return
+
+
 class CreateView(generics.ListCreateAPIView):
 
     queryset=[]
@@ -28,14 +38,6 @@ class CreateView(generics.ListCreateAPIView):
         return JsonResponse(risposta)
 
 
-class Pino(serializers.Serializer):
-    id =serializers.IntegerField()
-
-    def create(self):
-        return
-
-    def update(self):
-        return
 
 
 
