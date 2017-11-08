@@ -4,7 +4,8 @@ from django.http import JsonResponse
 from django.db import connection
 from rest_framework.exceptions import PermissionDenied
 import logging
-from rest_framework import generics, serializer
+from rest_framework import generics
+from rest_framework import serializers
 
 
 class CreateView(generics.ListCreateAPIView):
@@ -27,8 +28,8 @@ class CreateView(generics.ListCreateAPIView):
         return JsonResponse(risposta)
 
 
-class Pino(serializer.Serializer):
-    id =serializer.IntegerField()
+class Pino(serializers.Serializer):
+    id =serializers.IntegerField()
 
     def create(self):
         return
