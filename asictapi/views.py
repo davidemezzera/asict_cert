@@ -21,8 +21,8 @@ def heartbeat(request):  # pylint: disable=unused-argument
 def certs_download(request, start_date, end_date):  
     
 
-    if !(request.user.is_superuser)
-        raise PermissionDenied() 
+    #if !(request.user.is_superuser)
+     #   raise PermissionDenied() 
 
     with connection.cursor() as cursor:
         cursor.execute(
