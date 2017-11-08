@@ -42,4 +42,5 @@ def certs_download_yesterday(request):
     yesterday = (date.today() - timedelta(1)).strftime("%Y-%m-%d")
     today = date.today().strftime("%Y-%m-%d")
 
-    return certs_download(request, yesterday, today)    
+    #return certs_download(request, yesterday, today)    
+    return JsonResponse(request, safe=False)
