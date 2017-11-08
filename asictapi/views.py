@@ -43,7 +43,7 @@ def certs_download_yesterday(request):
     yesterday = (date.today() - timedelta(1)).strftime("%Y-%m-%d")
     today = date.today().strftime("%Y-%m-%d")
     logging.warning('LOGGING LOGGING') 
-    logging.warning(self)   
+    logging.warning(request.user.get_username())   
 
     return certs_download(request, yesterday, today)    
     #return JsonResponse(request, safe=False)
