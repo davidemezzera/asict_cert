@@ -4,8 +4,24 @@ from django.http import JsonResponse
 from django.db import connection
 from rest_framework.exceptions import PermissionDenied
 import logging
+from rest_framework import generics
 
 
+class CreateView(generics.ListCreateAPIView):
+
+    def heartbeat(self):  # pylint: disable=unused-argument
+    now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+
+    risposta = {
+        "alive_at": now
+    }
+
+    return JsonResponse(risposta)
+
+
+
+
+"""
 
 def heartbeat(request):  # pylint: disable=unused-argument
     now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
@@ -50,6 +66,6 @@ def certs_download_yesterday(request):
     logging.warning(request.user.get_username()) 
     logging.warning(request.user.is_superuser)
     logging.warning(request.META.get('REMOTE_USER'))
-       
 
-    return certs_download(request, yesterday, today)    
+
+    return certs_download(request, yesterday, today)    """
