@@ -11,7 +11,7 @@ class CreateView(generics.ListCreateAPIView):
 
     queryset=[]
     
-    def get_serializer_class():
+    def get_serializer_class(self):
         return None
 
 
