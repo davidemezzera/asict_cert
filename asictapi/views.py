@@ -9,6 +9,9 @@ from rest_framework import generics
 
 class CreateView(generics.ListCreateAPIView):
 
+    queryset=[]
+
+
     def heartbeat(self):  # pylint: disable=unused-argument
         now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
