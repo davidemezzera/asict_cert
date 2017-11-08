@@ -3,6 +3,7 @@ URLs for mobile WEBAPI
 """
 from django.conf import settings
 from django.conf.urls import patterns, url
+from .views import CreateView
 
 
 # Additionally, we include login URLs for the browseable API.
