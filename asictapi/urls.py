@@ -10,6 +10,6 @@ from .views import CreateView
 urlpatterns = patterns(
     '',
     url(r'^heartbeat', CreateView.as_view(), name = 'asictapi_heartbeat'),
-    url(r'^get_certs/last', 'asictapi.views.certs_download_yesterday', name = 'certs_download_yesterday'),
-    url(r'^get_certs/(?P<start_date>[^/]+)/(?P<end_date>[^/]+)', 'asictapi.views.certs_download', name = 'asictapi_certs_download'),
+    #url(r'^get_certs/last', 'asictapi.views.certs_download_yesterday', name = 'certs_download_yesterday'),
+    #url(r'^get_certs/(?P<start_date>[^/]+)/(?P<end_date>[^/]+)', 'asictapi.views.certs_download', name = 'asictapi_certs_download'),
 )
