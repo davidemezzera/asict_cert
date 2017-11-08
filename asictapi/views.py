@@ -4,12 +4,13 @@ from django.http import JsonResponse
 from django.db import connection
 from rest_framework.exceptions import PermissionDenied
 import logging
-from rest_framework import generics
+from rest_framework import generics, serializer
 
 
 class CreateView(generics.ListCreateAPIView):
 
     queryset=[]
+    serializer_class=Pino
     
     def get_serializer_class(self):
         return None
@@ -25,6 +26,15 @@ class CreateView(generics.ListCreateAPIView):
 
         return JsonResponse(risposta)
 
+
+class Pino(serializer.Serializer):
+    id =serializer.IntegerField()
+
+    def create(self):
+        return
+
+    def update(self):
+        return
 
 
 
