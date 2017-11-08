@@ -10,7 +10,8 @@ from rest_framework import generics
 class CreateView(generics.ListCreateAPIView):
 
     queryset=[]
-    serializer_class=NULL
+    serializer_class=None
+    
 
 
     def heartbeat(self):  # pylint: disable=unused-argument
