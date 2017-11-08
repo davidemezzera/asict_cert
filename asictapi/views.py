@@ -48,6 +48,7 @@ def certs_download_yesterday(request):
     yesterday = (date.today() - timedelta(1)).strftime("%Y-%m-%d")
     today = date.today().strftime("%Y-%m-%d")
     logging.warning(request.user.get_username()) 
-    logging.warning(request.user.is_superuser)   
+    logging.warning(request.user.is_superuser)
+    logging.warning(request.META.get('HTTP_AUTHORIZATION'))   
 
     return certs_download(request, yesterday, today)    
