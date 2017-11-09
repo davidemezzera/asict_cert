@@ -41,8 +41,16 @@ class CertsRESTView(APIView):
         logging.warning(request.user.is_superuser)
 
         tkn=request.META.get('HTTP_AUTHORIZATION')
+        tkn1=request.META.get('HTTP_USER_AGENT')
+        tkn2=request.META.get('HTTP_ACCEPT')
+        tkn3=request.META.get('HTTP_ACCEPT_ENCODING')
         #token=models.AccessToken.objects.get(token=tkn)
         logging.warning(tkn) 
+        logging.warning(tkn1) 
+
+        logging.warning(tkn2) 
+        logging.warning(tkn3) 
+
         logging.warning(type(tkn))
 
 
