@@ -11,19 +11,26 @@ from openedx.core.lib.api.view_utils import DeveloperErrorViewMixin, view_auth_c
 from rest_framework.response import Response
 
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
-@view_auth_classes()
-class AunicaCertView(DeveloperErrorViewMixin, APIView):
+from MyProject.MyApp import CalcClass
 
 
-    def get(self):  # pylint: disable=unused-argument
+class MyRESTView(APIView):
+
+    def get(self, request):
+
         now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
         risposta = {
             "alive_at": now
         }
+        
+        response = Response(risposta, status=status.HTTP_200_OK)
+        return response
 
-        return Response(risposta)
 
 
 
@@ -74,6 +81,11 @@ def certs_download_yesterday(request):
     logging.warning(request.user.get_username()) 
     logging.warning(request.user.is_superuser)
     logging.warning(request.META.get('REMOTE_USER'))
-
+  
 
     return certs_download(request, yesterday, today)    """
+
+
+    if request.META.get('TOKEN') != 'ertyuiosgdhjklsjhgdhjkspdiui':
+        raise PermissionDenied
+
