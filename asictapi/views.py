@@ -36,7 +36,7 @@ class CertsRESTView(APIView):
 
         logging.warning(request.user.get_username()) 
         logging.warning(request.user.is_superuser)
-        
+
         if not request.user.is_superuser:
             raise PermissionDenied() 
 
@@ -55,7 +55,7 @@ class CertsRESTView(APIView):
 
             result = cursor.fetchall()
 
-        return Response(result, safe=False)
+        return Response(result)
 
 
 
