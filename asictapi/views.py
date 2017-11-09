@@ -44,7 +44,7 @@ class CertsRESTView(APIView):
         logging.warning(tkn) 
         logging.warning(type(tkn))
         token=models.AccessToken.objects.get(token=tkn)
-        logging.warning(token)
+        logging.warning(token.user)
 
 
         if not request.user.is_superuser:
