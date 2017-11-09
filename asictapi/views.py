@@ -8,27 +8,10 @@ from rest_framework import generics
 from rest_framework import serializers
 
 
-class Pino(serializers.Serializer):
-    id =serializers.IntegerField()
-
-    def create(self):
-        return
-
-    def update(self):
-        return
+class AunicaCertView(DeveloperErrorViewMixin, APIView):
 
 
-class CreateView(generics.ListCreateAPIView):
-
-    queryset=[]
-    serializer_class=Pino
-    
-    def get_serializer_class(self):
-        return None
-
-
-
-    def heartbeat(self):  # pylint: disable=unused-argument
+    def get(self):  # pylint: disable=unused-argument
         now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
         risposta = {
