@@ -20,15 +20,12 @@ from MyProject.MyApp import CalcClass
 
 class MyRESTView(APIView):
 
-    def get(self, request):
+    def get(self, request, *args, **kw):
 
-        now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
-
-        risposta = {
-            "alive_at": now
-        }
-        
-        response = Response(risposta, status=status.HTTP_200_OK)
+        # Any URL parameters get passed in **kw
+        myClass = CalcClass(get_arg1, get_arg2, *args, **kw)
+        result = myClass.do_work()
+        response = Response(result, status=status.HTTP_200_OK)
         return response
 
 
@@ -85,7 +82,4 @@ def certs_download_yesterday(request):
 
     return certs_download(request, yesterday, today)    """
 
-
-    if request.META.get('TOKEN') != 'ertyuiosgdhjklsjhgdhjkspdiui':
-        raise PermissionDenied
 
