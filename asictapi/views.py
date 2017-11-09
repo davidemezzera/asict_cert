@@ -43,7 +43,7 @@ class HistoricalCertsRESTView(APIView):
             token=models.AccessToken.objects.get(token=tkn)
             user=token.user
 
-        #There is a user?
+        #USER --> Cookie
         else:
             user=request.user
 
@@ -55,24 +55,7 @@ class HistoricalCertsRESTView(APIView):
         with connection.cursor() as cursor:
             cursor.execute(
                 
-                "SELECT * FROM student_courseenrollment where course_id='course-v1:Polimi+AL101+2017_M9' and is_active='1'")
-
-
-            result = cursor.fetchall()
-
-        return Response(result)
-
-class LastCertsRESTView(APIView):
-    yesterday = (date.today() - timedelta(1)).strftime("%Y-%m-%d")
-    today = date.today().strftime("%Y-%m-%d")
-
-    def get(self, request, start_date, end_date):
-        return HistoricalCertsRESTView.get(request, yesterday, today)    
-
-
-
-"""
-'''"SELECT SUBSTRING(uid,14) AS CODICE_PERSONA, AP.name AS NAME, course_id, CG.created_date AS DATA_CERTIFICATO \
+                "SELECT SUBSTRING(uid,14) AS CODICE_PERSONA, AP.name AS NAME, course_id, CG.created_date AS DATA_CERTIFICATO \
                 from certificates_generatedcertificate CG \
                 JOIN auth_user A ON A.id = CG.user_id \
                 LEFT JOIN auth_userprofile AP ON A.id = AP.user_id \
@@ -81,53 +64,24 @@ class LastCertsRESTView(APIView):
                 AND provider != 'ecoopenid-auth' \
                 AND CONVERT(CG.created_date, datetime) >= CONVERT(%s, datetime) \
                 AND CONVERT(CG.created_date, datetime) <= CONVERT(%s, datetime)", 
-                (start_date, end_date))'''
+                (start_date, end_date))
 
-def heartbeat(request):  # pylint: disable=unused-argument
-    now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+            result = cursor.fetchall()
 
-    risposta = {
-        "alive_at": now
-    }
+        return Response(result)
 
-    return JsonResponse(risposta)
-
-
-
-def certs_download(request, start_date, end_date):  
+class LastCertsRESTView(APIView):
     
 
-    if not request.user.is_superuser:
-        raise PermissionDenied() 
+    def get(self, request):
+        yesterday = (date.today() - timedelta(1)).strftime("%Y-%m-%d")
+        today = date.today().strftime("%Y-%m-%d")
 
-    with connection.cursor() as cursor:
-        cursor.execute(
-            "SELECT SUBSTRING(uid,14) AS CODICE_PERSONA, AP.name AS NAME, course_id, CG.created_date AS DATA_CERTIFICATO \
-            from certificates_generatedcertificate CG \
-            JOIN auth_user A ON A.id = CG.user_id \
-            LEFT JOIN auth_userprofile AP ON A.id = AP.user_id \
-            LEFT JOIN social_auth_usersocialauth SAU ON A.id = SAU.user_id \
-            WHERE CG.status = 'downloadable' AND SUBSTRING(uid,14) IS NOT NULL \
-            AND provider != 'ecoopenid-auth' \
-            AND CONVERT(CG.created_date, datetime) >= CONVERT(%s, datetime) \
-            AND CONVERT(CG.created_date, datetime) <= CONVERT(%s, datetime)", 
-            (start_date, end_date))
-
-        result = cursor.fetchall()
-
-    return JsonResponse(result, safe=False)
+        return HistoricalCertsRESTView.get(request, yesterday, today)    
 
 
 
-def certs_download_yesterday(request):  
 
-    yesterday = (date.today() - timedelta(1)).strftime("%Y-%m-%d")
-    today = date.today().strftime("%Y-%m-%d")
-    logging.warning(request.user.get_username()) 
-    logging.warning(request.user.is_superuser)
-    logging.warning(request.META.get('REMOTE_USER'))
-  
 
-    return certs_download(request, yesterday, today)    """
 
 
