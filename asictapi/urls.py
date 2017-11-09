@@ -15,7 +15,6 @@ urlpatterns = patterns(
 )'''
 
 from .views import MyRESTView
-from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
     # this URL passes resource_id in **kw to MyRESTView
