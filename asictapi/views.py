@@ -33,23 +33,25 @@ class HeartRESTView(APIView):
         response = Response(risposta, status=status.HTTP_200_OK)
         return response
 
-class CertsRESTView(APIView):
+class HistoricalCertsRESTView(APIView):
 
     def get(self, request, start_date, end_date):
 
-        logging.warning(request.user.get_username()) 
-        logging.warning(request.user.is_superuser)
+        #Check: There is a Token?
+        if request.META.get('HTTP_AUTHORIZATION'):
+            tkn=request.META.get('HTTP_AUTHORIZATION').replace("Bearer ", "")
+            token=models.AccessToken.objects.get(token=tkn)
+            user=token.user
 
-        tkn=request.META.get('HTTP_AUTHORIZATION').replace("Bearer ", "")
-        logging.warning(tkn) 
-        logging.warning(type(tkn))
-        token=models.AccessToken.objects.get(token=tkn)
-        logging.warning(token.user)
+        #There is a user?
+        else:
+            user=request.user
 
-
-        if not token.user.is_superuser:
+        #Permission Check: only superUser
+        if not user.is_superuser:
             raise PermissionDenied() 
 
+        #Query To DB
         with connection.cursor() as cursor:
             cursor.execute(
                 "SELECT SUBSTRING(uid,14) AS CODICE_PERSONA, AP.name AS NAME, course_id, CG.created_date AS DATA_CERTIFICATO \
@@ -67,8 +69,11 @@ class CertsRESTView(APIView):
 
         return Response(result)
 
+class LastCertsRESTView(APIView):
+    yesterday = (date.today() - timedelta(1)).strftime("%Y-%m-%d")
+    today = date.today().strftime("%Y-%m-%d")
 
-
+    return certs_download(request, yesterday, today)    
 
 
 
