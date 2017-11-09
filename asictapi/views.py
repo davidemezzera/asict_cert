@@ -3,9 +3,11 @@ from datetime import date, datetime, timedelta
 from django.http import JsonResponse
 from django.db import connection
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.views import APIView
 import logging
 from rest_framework import generics
 from rest_framework import serializers
+from openedx.core.lib.api.view_utils import DeveloperErrorViewMixin
 
 
 class AunicaCertView(DeveloperErrorViewMixin, APIView):
