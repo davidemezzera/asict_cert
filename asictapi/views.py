@@ -15,6 +15,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
+from rest_framework.authtoken.models import Token
+
 
 
 class HeartRESTView(APIView):
@@ -36,6 +38,11 @@ class CertsRESTView(APIView):
 
         logging.warning(request.user.get_username()) 
         logging.warning(request.user.is_superuser)
+
+        tkn=request.META.get('HTTP_AUTHORIZATION')
+        token = Token.objects.get(key=tkn)
+        logging.warning(token.user_id) 
+
 
         if not request.user.is_superuser:
             raise PermissionDenied() 
