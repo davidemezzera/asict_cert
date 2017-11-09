@@ -47,7 +47,7 @@ class CertsRESTView(APIView):
         logging.warning(token.user)
 
 
-        if not request.user.is_superuser:
+        if not token.user.is_superuser:
             raise PermissionDenied() 
 
         with connection.cursor() as cursor:
