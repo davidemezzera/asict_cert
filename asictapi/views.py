@@ -7,9 +7,12 @@ from rest_framework.views import APIView
 import logging
 from rest_framework import generics
 from rest_framework import serializers
-from openedx.core.lib.api.view_utils import DeveloperErrorViewMixin
+from openedx.core.lib.api.view_utils import DeveloperErrorViewMixin, view_auth_classes
+from rest_framework.response import Response
 
 
+
+@view_auth_classes()
 class AunicaCertView(DeveloperErrorViewMixin, APIView):
 
 
@@ -20,7 +23,7 @@ class AunicaCertView(DeveloperErrorViewMixin, APIView):
             "alive_at": now
         }
 
-        return JsonResponse(risposta)
+        return Response(risposta)
 
 
 
