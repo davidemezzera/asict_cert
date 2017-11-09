@@ -21,10 +21,13 @@ class MyRESTView(APIView):
 
     def get(self, request, *args, **kw):
 
-        # Any URL parameters get passed in **kw
-        myClass = CalcClass(get_arg1, get_arg2, *args, **kw)
-        result = myClass.do_work()
-        response = Response(result, status=status.HTTP_200_OK)
+        now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+
+        risposta = {
+            "alive_at": now
+        }
+
+        response = Response(risposta, status=status.HTTP_200_OK)
         return response
 
 
