@@ -40,7 +40,7 @@ class CertsRESTView(APIView):
         logging.warning(request.user.is_superuser)
 
         tkn=request.META.get('HTTP_AUTHORIZATION')
-        token = Token.objects.get(key=tkn)
+        token=models.AccessToken.objects.get(token=tkn)
         logging.warning(token.user_id) 
 
 
