@@ -77,7 +77,7 @@ class LastCertsRESTView(APIView):
         yesterday = (date.today() - timedelta(1)).strftime("%Y-%m-%d")
         today = date.today().strftime("%Y-%m-%d")
 
-        historicalCertsRESTView=()
+        historicalCertsRESTView=HistoricalCertsRESTView()
 
         return historicalCertsRESTView.get(request, yesterday, today)    
 
