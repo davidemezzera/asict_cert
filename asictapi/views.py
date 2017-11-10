@@ -3,20 +3,16 @@ from datetime import date, datetime, timedelta
 from django.http import JsonResponse
 from django.db import connection
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.views import APIView
 import logging
-from rest_framework import generics
-from rest_framework import serializers
-from openedx.core.lib.api.view_utils import DeveloperErrorViewMixin, view_auth_classes
-from rest_framework.response import Response
-
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
-from rest_framework.authtoken.models import Token
 from provider.oauth2 import models
+
+from lms.djangoapps.courseware.courses import get_courses
+from .api import course_detail, list_courses
+
 
 
 
@@ -86,7 +82,10 @@ class CourseListRESTView(APIView):
 
     def get(self, request):
         
-        corsi={'corso':'test'}
+        corsi= list_courses(
+            request, 
+            'DavideMezzera'
+        )
 
         return Response(corsi)
 
