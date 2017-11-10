@@ -88,7 +88,7 @@ class CourseListRESTView(APIView):
         
         corsi={'corso':'test'}
 
-        return Response(coursi)
+        return Response(corsi)
 
 
 
