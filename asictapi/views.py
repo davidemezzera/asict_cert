@@ -77,13 +77,18 @@ class LastCertsRESTView(APIView):
         yesterday = (date.today() - timedelta(1)).strftime("%Y-%m-%d")
         today = date.today().strftime("%Y-%m-%d")
 
-        historicalCertsRESTView=HistoricalCertsRESTView()
+        historicalCertsRESTView=HistoricalCertsRESTView8()
 
         return historicalCertsRESTView.get(request, yesterday, today)    
 
 
+class CourseListRESTView(APIView):
 
+    def get(self, request):
+        
+        corsi={'corso':'test'}
 
+        return Response(coursi)
 
 
 
