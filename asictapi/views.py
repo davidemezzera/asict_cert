@@ -11,7 +11,7 @@ from rest_framework import status
 from provider.oauth2 import models
 
 from lms.djangoapps.courseware.courses import get_courses
-from .api import course_detail, list_courses
+from lms.djangoapps.course_api.api import course_detail, list_courses
 
 
 
@@ -87,6 +87,9 @@ class CourseListRESTView(APIView):
             'DavideMezzera'
         )
 
+        for corso in corsi:
+            logging.warning(corso)
+            
         return Response(corsi)
 
 
