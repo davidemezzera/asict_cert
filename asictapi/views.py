@@ -12,6 +12,7 @@ from provider.oauth2 import models
 
 from lms.djangoapps.courseware.courses import get_courses
 from lms.djangoapps.course_api.api import course_detail, list_courses
+from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 
 
 
@@ -82,15 +83,17 @@ class CourseListRESTView(APIView):
 
     def get(self, request):
         
-        corsi= list_courses(
+        courseOverviewList= list_courses(
             request, 
             'DavideMezzera'
         )
 
-        for corso in corsi:
-            logging.warning(corso)
-            
-        return Response(corsi)
+        risultato=[];
+        for corso in courseOverviewList:
+            #logging.warning(corso)
+            risultato.append([corso.id, corso.display_name, corso.display_number_with_default])
+
+        return Response(risultato)
 
 
 
