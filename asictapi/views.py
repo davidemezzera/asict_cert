@@ -65,6 +65,9 @@ class HistoricalCertsRESTView(APIView):
                 (start_date, end_date))
 
             result = cursor.fetchall()
+            logging.warning(type(result))
+
+            [logging.warning(row) for row in result]
 
         return Response(result)
 
@@ -91,11 +94,9 @@ class CourseListRESTView(APIView):
             id=unicode(corso.id)
             values=id.split("+")
             logging.warning(values)
-            edition={"id":unicode(corso.id), "course_identification": values[-1], "edition_run":values[-1], "title":corso.display_name, "short_description":corso.short_description}
+            edition={"id":unicode(corso.id), "course_identification_code": values[-2], "edition_run":values[-1], "denominazione_corso":corso.display_name, "descrizione_corso":corso.short_description}
             risultato.append(edition)
 
-
-        #logging.warning(risultato)
 
         return Response(risultato)
 
