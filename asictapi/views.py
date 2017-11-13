@@ -10,10 +10,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from provider.oauth2 import models
 
-from lms.djangoapps.courseware.courses import get_courses
-from lms.djangoapps.course_api.api import course_detail, list_courses
+#from lms.djangoapps.courseware.courses import get_courses
+#from lms.djangoapps.course_api.api import course_detail, list_courses
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
-from opaque_keys.edx.keys import CourseKey
+#from opaque_keys.edx.keys import CourseKey
 
 
 
@@ -67,7 +67,7 @@ class HistoricalCertsRESTView(APIView):
             query_result = cursor.fetchall()
             result=[]
 
-            [result.append("codice_persona":row[0], "nome_cognome":row[1], "id":row[2], "data_certificato":row[3] ) for row in query_result]
+            [result.append({"codice_persona":row[0], "nome_cognome":row[1], "identificativo_univoco_corso":row[2], "data_certificato":row[3]}) for row in query_result]
 
         return Response(result)
 
@@ -93,7 +93,7 @@ class CourseListRESTView(APIView):
         for corso in courseOverviewList:
             values=unicode(corso.id).split("+")
             if len(values)>1: #delete old courses: e.g. edX/Open_DemoX/edx_demo_course
-                result.append({"id":unicode(corso.id), "course_identification_code": values[-2], "edition_run":values[-1], "denominazione_corso":corso.display_name, "descrizione_corso":corso.short_description})
+                result.append({"identificativo_univoco_corso":unicode(corso.id), "codice_corso": values[-2], "codice_edizione":values[-1], "titolo_corso":corso.display_name, "descrizione_corso":corso.short_description})
 
         return Response(result)
 
