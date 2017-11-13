@@ -89,7 +89,7 @@ class CourseListRESTView(APIView):
         risultato=[];
         for corso in courseOverviewList:
             #logging.warning(corso)
-            risultato.append([corso.clean_id(), corso.display_name, corso.url_name, corso.number, corso.display_number_with_default])
+            risultato.append([corso.clean_id(), corso.display_name, corso.short_description, unicode(corso.key), corso.url_name, corso.number, corso.display_number_with_default])
 
 
         logging.warning(risultato)
