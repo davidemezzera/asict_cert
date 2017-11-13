@@ -89,8 +89,9 @@ class CourseListRESTView(APIView):
         risultato=[];
         for corso in courseOverviewList:
             id=unicode(corso.id)
-            values=id.split('+')
-            edition={"id":unicode(corso.id), "course_identification": values[1], "edition_run":values[2], "title":corso.display_name, "short_description":corso.short_description}
+            values=id.split("+")
+            logging.warning(values)
+            edition={"id":unicode(corso.id), "course_identification": values[0], "edition_run":values[1], "title":corso.display_name, "short_description":corso.short_description}
             risultato.append(edition)
 
 
