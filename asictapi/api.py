@@ -17,9 +17,9 @@ def permission_check(request):
             user=request.user
 
         #Permission Check: only superUser
-        if not user.is_superuser:
+        if user.is_superuser:
+        	return True
+        else:
             raise PermissionDenied()
 
-        else:
-        	return True
 
