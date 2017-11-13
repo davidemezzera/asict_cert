@@ -1,6 +1,7 @@
 from rest_framework.exceptions import PermissionDenied
 import logging
 
+from provider.oauth2 import models
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 
 
