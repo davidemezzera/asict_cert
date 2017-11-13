@@ -9,19 +9,15 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from provider.oauth2 import models
-
-#from lms.djangoapps.courseware.courses import get_courses
-#from lms.djangoapps.course_api.api import course_detail, list_courses
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
-#from opaque_keys.edx.keys import CourseKey
-
-
+from .api import permission_check
 
 
 class HeartRESTView(APIView):
 
     def get(self, request, *args, **kw):
 
+        permission_check(request)
         now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
         risposta = {
@@ -31,23 +27,12 @@ class HeartRESTView(APIView):
         response = Response(risposta, status=status.HTTP_200_OK)
         return response
 
+
 class HistoricalCertsRESTView(APIView):
 
     def get(self, request, start_date, end_date):
 
-        #Check: There is a Token?
-        if request.META.get('HTTP_AUTHORIZATION'):
-            tkn=request.META.get('HTTP_AUTHORIZATION').replace("Bearer ", "")
-            token=models.AccessToken.objects.get(token=tkn)
-            user=token.user
-
-        #USER --> Cookie
-        else:
-            user=request.user
-
-        #Permission Check: only superUser
-        if not user.is_superuser:
-            raise PermissionDenied() 
+        permission_check(request)
 
         #Query To DB
         with connection.cursor() as cursor:
@@ -71,9 +56,9 @@ class HistoricalCertsRESTView(APIView):
 
         return Response(result)
 
+
 class LastCertsRESTView(APIView):
     
-
     def get(self, request):
         yesterday = (date.today() - timedelta(1)).strftime("%Y-%m-%d")
         today = date.today().strftime("%Y-%m-%d")
@@ -87,6 +72,8 @@ class CourseListRESTView(APIView):
 
     def get(self, request):
         
+        permission_check(request)
+
         courseOverviewList=CourseOverview.objects.all()
 
         result=[];
