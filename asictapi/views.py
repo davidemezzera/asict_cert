@@ -64,10 +64,10 @@ class HistoricalCertsRESTView(APIView):
                 AND CONVERT(CG.created_date, datetime) <= CONVERT(%s, datetime)", 
                 (start_date, end_date))
 
-            result = cursor.fetchall()
-            logging.warning(type(result))
+            query_result = cursor.fetchall()
+            result=[]
 
-            [logging.warning(row) for row in result]
+            [result.append("codice_persona":row[0], "nome_cognome":row[1], "id":row[2], "data_certificato":row[3] ) for row in query_result]
 
         return Response(result)
 
