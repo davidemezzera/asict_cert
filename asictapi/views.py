@@ -94,8 +94,9 @@ class CourseListRESTView(APIView):
             id=unicode(corso.id)
             values=id.split("+")
             logging.warning(values)
-            edition={"id":unicode(corso.id), "course_identification_code": values[-2], "edition_run":values[-1], "denominazione_corso":corso.display_name, "descrizione_corso":corso.short_description}
-            risultato.append(edition)
+            if len(values)>1:
+                        edition={"id":unicode(corso.id), "course_identification_code": values[-2], "edition_run":values[-1], "denominazione_corso":corso.display_name, "descrizione_corso":corso.short_description}
+                        risultato.append(edition)
 
 
         return Response(risultato)
