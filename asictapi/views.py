@@ -75,7 +75,7 @@ class LastCertsRESTView(APIView):
         yesterday = (date.today() - timedelta(1)).strftime("%Y-%m-%d")
         today = date.today().strftime("%Y-%m-%d")
 
-        historicalCertsRESTView=HistoricalCertsRESTView8()
+        historicalCertsRESTView=HistoricalCertsRESTView()
 
         return historicalCertsRESTView.get(request, yesterday, today)    
 
@@ -89,7 +89,7 @@ class CourseListRESTView(APIView):
         risultato=[];
         for corso in courseOverviewList:
             #logging.warning(corso)
-            risultato.append([corso.clean_id(), corso.display_name, corso.short_description, unicode(corso.id), corso.url_name, corso.number, corso.display_number_with_default])
+            risultato.append([unicode(corso.id), corso.display_name, corso.short_description, corso.url_name, corso.number, corso.display_number_with_default])
 
 
         logging.warning(risultato)
