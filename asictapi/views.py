@@ -38,7 +38,7 @@ class HistoricalCertsRESTView(APIView):
         with connection.cursor() as cursor:
             cursor.execute(
                 
-                "SELECT SUBSTRING(uid,14) AS CODICE_PERSONA, AP.name AS NAME, course_id, CG.created_date AS DATA_CERTIFICATO \
+                "SELECT SUBSTRING(uid,14) AS CODICE_PERSONA, AP.name AS NAME, course_id, CG.created_date AS DATA_CERTIFICATO, CG.id \
                 from certificates_generatedcertificate CG \
                 JOIN auth_user A ON A.id = CG.user_id \
                 LEFT JOIN auth_userprofile AP ON A.id = AP.user_id \
@@ -52,7 +52,7 @@ class HistoricalCertsRESTView(APIView):
             query_result = cursor.fetchall()
             result=[]
 
-            [result.append({"codice_persona":row[0], "nome_cognome":row[1], "identificativo_univoco_corso":row[2], "data_certificato":row[3]}) for row in query_result]
+            [result.append({"id":row[4], "codice_persona":row[0], "nome_cognome":row[1], "identificativo_univoco_corso":row[2], "data_certificato":row[3]}) for row in query_result]
 
         return Response(result)
 
@@ -80,7 +80,7 @@ class CourseListRESTView(APIView):
         for corso in courseOverviewList:
             values=unicode(corso.id).split("+")
             if len(values)>1: #delete old courses: e.g. edX/Open_DemoX/edx_demo_course
-                result.append({"identificativo_univoco_corso":unicode(corso.id), "codice_corso": values[-2], "codice_edizione":values[-1], "titolo_corso":corso.display_name, "descrizione_corso":corso.short_description})
+                result.append({"identificativo_univoco_corso":unicode(corso.id), "codice_corso": values[-2], "codice_edizione":values[-1], "titolo_corso":corso.display_name, "descrizione_corso":corso.short_description, "inizio":corso.start, "fine":corso.end})
 
         return Response(result)
 
