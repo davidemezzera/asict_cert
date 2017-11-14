@@ -50,7 +50,7 @@ class HistoricalCertsRESTView(APIView):
                 AND CONVERT(CG.created_date, datetime) <= CONVERT(%s, datetime)", 
                 (start_date, end_date))
             
-            except MySQLdb.Error, e:
+            except (MySQLdb.Error, MySQLdb.Warning) as e:
                 return Response("MySQL Error: %s" % str(e))
 
             query_result = cursor.fetchall()
