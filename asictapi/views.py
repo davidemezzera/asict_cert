@@ -38,7 +38,7 @@ class HistoricalCertsRESTView(APIView):
         with connection.cursor() as cursor:
             
             try:
-            cursor.execute(
+                cursor.execute(
                 "SELECT SUBSTRING(uid,14) AS CODICE_PERSONA, AP.name AS NAME, course_id, CG.created_date AS DATA_CERTIFICATO, CG.id \
                 from certificates_generatedcertificate CG \
                 JOIN auth_user A ON A.id = CG.user_id \
