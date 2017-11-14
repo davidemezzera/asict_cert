@@ -36,8 +36,9 @@ class HistoricalCertsRESTView(APIView):
 
         #Query To DB
         with connection.cursor() as cursor:
+            
+            try:
             cursor.execute(
-                
                 "SELECT SUBSTRING(uid,14) AS CODICE_PERSONA, AP.name AS NAME, course_id, CG.created_date AS DATA_CERTIFICATO, CG.id \
                 from certificates_generatedcertificate CG \
                 JOIN auth_user A ON A.id = CG.user_id \
@@ -48,6 +49,9 @@ class HistoricalCertsRESTView(APIView):
                 AND CONVERT(CG.created_date, datetime) >= CONVERT(%s, datetime) \
                 AND CONVERT(CG.created_date, datetime) <= CONVERT(%s, datetime)", 
                 (start_date, end_date))
+            
+            except MySQLdb.Error, e:
+                return Response("MySQL Error: %s" % str(e))
 
             query_result = cursor.fetchall()
             result=[]
