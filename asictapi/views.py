@@ -34,27 +34,30 @@ class HistoricalCertsRESTView(APIView):
 
         permission_check(request)
 
+        try: 
+            (dt.datetime.strptime(start_date, "%m/%d/%Y"))
+            (dt.datetime.strptime(end_date, "%m/%d/%Y"))
+        except ValueError as err:
+            return Response({"Error: ":"Invalid parameter given. 01/10/2017 needed!"})
+
+
         #Query To DB
         with connection.cursor() as cursor:
             
-            try:
-                cursor.execute(
-                "SELECT SUBSTRING(uid,14) AS CODICE_PERSONA, AP.name AS NAME, course_id, CG.created_date AS DATA_CERTIFICATO, CG.id \
-                from certificates_generatedcertificate CG \
-                JOIN auth_user A ON A.id = CG.user_id \
-                LEFT JOIN auth_userprofile AP ON A.id = AP.user_id \
-                LEFT JOIN social_auth_usersocialauth SAU ON A.id = SAU.user_id \
-                WHERE CG.status = 'downloadable' AND SUBSTRING(uid,14) IS NOT NULL \
-                AND provider != 'ecoopenid-auth' \
-                AND CONVERT(CG.created_date, datetime) >= CONVERT(%s, datetime) \
-                AND CONVERT(CG.created_date, datetime) <= CONVERT(%s, datetime)", 
-                (start_date, end_date))
-                query_result = cursor.fetchall()
-            
-            except (MySQLdb.Error, MySQLdb.Warning) as e:
-                logging.warning("errore")
-                return Response("MySQL Error: %s" % str(e))    
-                
+            cursor.execute(
+            "SELECT SUBSTRING(uid,14) AS CODICE_PERSONA, AP.name AS NAME, course_id, CG.created_date AS DATA_CERTIFICATO, CG.id \
+            from certificates_generatedcertificate CG \
+            JOIN auth_user A ON A.id = CG.user_id \
+            LEFT JOIN auth_userprofile AP ON A.id = AP.user_id \
+            LEFT JOIN social_auth_usersocialauth SAU ON A.id = SAU.user_id \
+            WHERE CG.status = 'downloadable' AND SUBSTRING(uid,14) IS NOT NULL \
+            AND provider != 'ecoopenid-auth' \
+            AND CONVERT(CG.created_date, datetime) >= CONVERT(%s, datetime) \
+            AND CONVERT(CG.created_date, datetime) <= CONVERT(%s, datetime)", 
+            (start_date, end_date))
+
+            query_result = cursor.fetchall()   
+
             result=[]
 
             [result.append({"id":row[4], "codice_persona":row[0], "nome_cognome":row[1], "identificativo_univoco_corso":row[2], "data_certificato":row[3]}) for row in query_result]
