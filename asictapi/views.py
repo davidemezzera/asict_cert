@@ -35,11 +35,12 @@ class HistoricalCertsRESTView(APIView):
 
         permission_check(request)
 
-        try: 
-            (dt.datetime.strptime(start_date, "%m/%d/%Y"))
-            (dt.datetime.strptime(end_date, "%m/%d/%Y"))
+        #parameter check
+        try:
+            dt.datetime.strptime(start_date, "%Y-%m-%d")
+            dt.datetime.strptime(end_date, "%Y-%m-%d")
         except ValueError as err:
-            return Response({"Error: ":"Invalid parameter given. 01/10/2017 needed!"})
+            return Response({"Error: ":"Invalid parameter given. yyyy-mm-dd needed!"})
 
 
         #Query To DB
