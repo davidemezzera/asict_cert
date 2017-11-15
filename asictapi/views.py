@@ -49,11 +49,12 @@ class HistoricalCertsRESTView(APIView):
                 AND CONVERT(CG.created_date, datetime) >= CONVERT(%s, datetime) \
                 AND CONVERT(CG.created_date, datetime) <= CONVERT(%s, datetime)", 
                 (start_date, end_date))
+                query_result = cursor.fetchall()
             
             except (MySQLdb.Error, MySQLdb.Warning) as e:
-                return Response("MySQL Error: %s" % str(e))
-
-            query_result = cursor.fetchall()
+                logging.warning("errore")
+                return Response("MySQL Error: %s" % str(e))    
+                
             result=[]
 
             [result.append({"id":row[4], "codice_persona":row[0], "nome_cognome":row[1], "identificativo_univoco_corso":row[2], "data_certificato":row[3]}) for row in query_result]
